@@ -1,4 +1,3 @@
 datetime
-smtplib
 csv
 
