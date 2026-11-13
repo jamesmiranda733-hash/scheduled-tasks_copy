@@ -1,1 +1,7 @@
 pandas
+requests
+csv_file_reader
+random
+smtplib
+datetime
+
