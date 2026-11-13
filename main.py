@@ -6,8 +6,9 @@ with open('birthdays.csv') as birthday:
     reader = csv.DictReader(birthday)
     bd_data = list(reader)
 
-MY_EMAIL = "jamesmiranda733@gmail.com"
-MY_PASSWORD = "wzkttvzptzeyjvvb"
+MY_EMAIL = os.environ.get("MY_EMAIL")
+MY_PASSWORD = os.environ.get("MY_PASSWORD")
+
 ALL_LETTERS = ["letter_templates/letter_1.txt", "letter_templates/letter_2.txt", "letter_templates/letter_3.txt"]
 dt = datetime.datetime.now()
 CURRENT_DAY = dt.day
