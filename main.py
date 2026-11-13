@@ -1,5 +1,6 @@
 import datetime, random, smtplib
 import csv
+import os
 
 with open('birthdays.csv') as birthday:
     reader = csv.DictReader(birthday)
