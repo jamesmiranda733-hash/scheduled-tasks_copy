@@ -1,7 +1,5 @@
-pandas
-requests
-csv_file_reader
+datetime
 random
 smtplib
-datetime
+csv
 
