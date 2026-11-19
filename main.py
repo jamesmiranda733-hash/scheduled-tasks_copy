@@ -30,9 +30,9 @@ for hour_data in weather_data:
         will_rain = True
 
 if will_rain:
-    with smtplib.SMTP("smtp.gmail.com") as connection:
+    with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as connection:
         connection.starttls()
-        connection.login(user=my_gmail, password=app_password)
+        connection.login(user=my_gmail, password=app_password_2)
         connection.sendmail(
             from_addr=my_gmail,
             to_addrs=my_gmail,
