@@ -1,0 +1,32 @@
+
+name: Daily Rain Alert
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * *'
+
+jobs:
+  rain-alert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get Python files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install libraries
+        run: pip install requests twilio
+
+      - name: Run Rain Alert
+        env:
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          MY_EMAIL: ${{ secrets.MY_EMAIL }}
+          ACCOUNT_SID: ${{ secrets.ACCOUNT_SID }}
+          AUTH_TOKEN: ${{ secrets.AUTH_TOKEN }}
+          WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+        run: python main.py
