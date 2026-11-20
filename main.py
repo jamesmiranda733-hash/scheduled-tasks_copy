@@ -11,8 +11,8 @@ weather_api_key = os.environ["WEATHER_API_KEY"]
 OWM_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast"
 
 weather_parameters = {
-    "lat": 16.5691,
-    "lon": -88.5276,
+    "lat": 35.2220,
+    "lon": -101.8313,
     "appid": weather_api_key,
     "cnt" : 4
 }
