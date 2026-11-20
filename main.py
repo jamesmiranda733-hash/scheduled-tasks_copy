@@ -3,8 +3,6 @@ from twilio.rest import Client
 import smtplib
 import os
 
-
-
 app_password_2 = os.environ["APP_PASSWORD_2"]
 my_gmail = os.environ["MY_EMAIL"]
 account_sid = os.environ["ACCOUNT_SID"]
@@ -24,33 +22,51 @@ response.raise_for_status()
 weather_data = response.json()
 weather_data = weather_data["list"]
 will_rain = False
+
 for hour_data in weather_data:
     condition_code = hour_data["weather"][0]["id"]
     if int(condition_code) < 700:
         will_rain = True
+        break
 
 if will_rain:
-    with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as connection:
+    message = (
+        f"Subject: TODAY IS GOING TO BE VERY RAINY! \n\n"
+    "Rain is expected throughout the day today, "
+    "so make sure to plan ahead and be prepared for wet weather. "
+    "Be sure to bring an umbrella or rain jacket before heading out to avoid "
+    "getting caught in the rain. Roads and sidewalks may become slippery, "
+    "so take extra precautions while traveling. "
+    "Stay safe, stay dry, and don't forget your umbrella!"
+    )
+
+    client = Client(account_sid, auth_token)
+    send_message = client.messages.create(
+        body="sms_2fa",
+        to = "+18068477492",
+         from_ = "+17372583478",)
+    print(send_message.status)
+
+
+else:
+    message = (
+        "Subject: GOOD NEWS! NO RAIN EXPECTED TODAY!\n\n"
+               "Good morning! Based on today's weather forecast, "
+               "no rain is expected over the next several hours, "
+               "so you should be good to go without worrying about "
+               "carrying an umbrella or rain jacket. Whether you're "
+               "heading to work, school, or just going about your day, "
+               "the weather is looking promising! Keep in mind that conditions "
+               "change, but for now, enjoy your day and stay safe!"
+    )
+
+with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as connection:
         connection.starttls()
         connection.login(user=my_gmail, password=app_password_2)
         connection.sendmail(
             from_addr=my_gmail,
             to_addrs=my_gmail,
-            msg= f"Subject: TODAY IS GOING TO BE VERY RAINY! \n\n"
-            "Rain is expected throughout the day today, "
-                 "so make sure to plan ahead and be prepared for wet weather. "
-                 "Be sure to bring an umbrella or rain jacket before heading out to avoid "
-                 "getting caught in the rain. Roads and sidewalks may become slippery, "
-                 "so take extra precautions while traveling. "
-                 "Stay safe, stay dry, and don't forget your umbrella!"
+            msg= message
         )
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-        body="sms_2fa",
-        to = "+18068477492",
-         from_ = "+17372583478",)
-    print(message.status)
-
-
 
 
