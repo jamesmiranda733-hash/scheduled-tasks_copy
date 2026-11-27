@@ -57,7 +57,7 @@ else:
 
 with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
     connection.starttls()
-    connection.login(user=my_gmail, password=app_password)
+    connection.login(user=my_gmail, password=app_password_2)
 
     message = EmailMessage()
     message["Subject"] = subject
