@@ -2,6 +2,7 @@ import requests
 from twilio.rest import Client
 import smtplib
 import os
+from email.message import EmailMessage
 
 app_password_2 = os.environ["APP_PASSWORD_2"]
 my_gmail = os.environ["MY_EMAIL"]
@@ -9,6 +10,7 @@ account_sid = os.environ["ACCOUNT_SID"]
 auth_token = os.environ["AUTH_TOKEN"]
 weather_api_key = os.environ["WEATHER_API_KEY"]
 OWM_ENDPOINT = "https://api.openweathermap.org/data/2.5/forecast"
+LINK = "https://forecast.weather.gov/MapClick.php?lat=35.2133&lon=-101.8327"
 
 weather_parameters = {
     "lat": 35.2220,
@@ -30,43 +32,37 @@ for hour_data in weather_data:
         break
 
 if will_rain:
-    message = (
-        f"Subject: TODAY IS GOING TO BE VERY RAINY! \n\n"
-    "Rain is expected throughout the day today, "
-    "so make sure to plan ahead and be prepared for wet weather. "
-    "Be sure to bring an umbrella or rain jacket before heading out to avoid "
-    "getting caught in the rain. Roads and sidewalks may become slippery, "
-    "so take extra precautions while traveling. "
-    "Stay safe, stay dry, and don't forget your umbrella!"
+    subject = "🌧️ Weather Alert — Rain Expected"
+    body = (
+        "Good morning!\n\n"
+        "Based on the latest weather forecast, rain may "
+        "occur later today.\n\n"
+        "Remember to bring an umbrella or a raincoat "
+        "before heading out.\n\n"
+        "Stay safe and have a wonderful day!\n\n"
+        f"View Live Forecast: {LINK}")
     )
-
-    client = Client(account_sid, auth_token)
-    send_message = client.messages.create(
-        body="sms_2fa",
-        to = "+18068477492",
-         from_ = "+17372583478",)
-    print(send_message.status)
-
 
 else:
-    message = (
-        "Subject: GOOD NEWS! NO RAIN EXPECTED TODAY!\n\n"
-               "Good morning! Based on today's weather forecast, "
-               "no rain is expected over the next several hours, "
-               "so you should be good to go without worrying about "
-               "carrying an umbrella or rain jacket. Whether you're "
-               "heading to work, school, or just going about your day, "
-               "the weather is looking promising! Keep in mind that conditions "
-               "change, but for now, enjoy your day and stay safe!"
+    subject = "☀️ Weather Update — No Rain Expected"
+    body = (
+        "Good morning!\n\n"
+        "Based on the latest weather forecast, no rain "
+        "is expected during the forecast period.\n\n"
+        "You should be good to head out without "
+        "an umbrella.\n\n"
+        "Enjoy your day!"
+        f"View Live Forecast: {LINK}")
     )
 
-with smtplib.SMTP("smtp.gmail.com", 587, timeout=15) as connection:
-        connection.starttls()
-        connection.login(user=my_gmail, password=app_password_2)
-        connection.sendmail(
-            from_addr=my_gmail,
-            to_addrs=my_gmail,
-            msg= message
-        )
+with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+    connection.starttls()
+    connection.login(user=my_gmail, password=app_password)
 
+    message = EmailMessage()
+    message["Subject"] = subject
+    message["From"] = my_gmail
+    message["To"] = my_gmail
+    message.set_content(body)
 
+    connection.send_message(message)
