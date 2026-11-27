@@ -40,7 +40,7 @@ if will_rain:
         "Remember to bring an umbrella or a raincoat "
         "before heading out.\n\n"
         "Stay safe and have a wonderful day!\n\n"
-        f"View Live Forecast: {LINK}")
+        f"View Live Forecast: {LINK}"
     )
 
 else:
@@ -52,7 +52,7 @@ else:
         "You should be good to head out without "
         "an umbrella.\n\n"
         "Enjoy your day!\n\n"
-        f"View Live Forecast: {LINK}")
+        f"View Live Forecast: {LINK}"
     )
 
 with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
