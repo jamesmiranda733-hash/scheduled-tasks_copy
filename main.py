@@ -51,7 +51,7 @@ else:
         "is expected during the forecast period.\n\n"
         "You should be good to head out without "
         "an umbrella.\n\n"
-        "Enjoy your day!"
+        "Enjoy your day!\n\n"
         f"View Live Forecast: {LINK}")
     )
 
